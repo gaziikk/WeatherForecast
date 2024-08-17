@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прогноз погоды</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- FontAwesome  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        .card-body img {
+            width: 40px;
+        }
+    </style>
+</head>
+<body>
+<div class="container pt-5 fs-5">
+    <h1 class="text-center">Прогноз погоды</h1>
+    <hr>
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" class="mt-3">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <label for="city" class="input-group-text">Город</label>
+                            <input type="text" class="form-control" id="city" name="city" placeholder="Введите город">
+                            <button type="submit" class="btn btn-primary">Отправить</button>
+                            <button href="{% url 'weather_page' %}" class="btn btn-secondary">Сбросить</button>
+                        </div>
+                    </form>
+                    
+                    {% if city_not_found %}
+                        <div class="alert alert-danger mt-3" role="alert">
+                            Извините.. Город <b>{{ city }}</b> не найден
+                        </div>
+                    {% else %}
+                    <div class="mt-3">
+<!---------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+                        <div class="row mt-3">
+                            <!-- Город -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/city.png' %}" alt="city">
+                                    {% if city %}
+                                        <span style="margin-left: 5px;">Город: {{ city }}</span>
+                                    {% else %}
+                                        <span style="margin-left: 5px;">Город: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- Широта -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/latitude.png' %}" alt="latitude">
+                                    {% if latitude %}
+                                        <span style="margin-left: 5px;">Широта: {{ latitude }}°</span>
+                                    {% else %}
+                                        <span style="margin-left: 5px;">Широта: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- Долгота -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/longitude.png' %}" alt="longitude">
+                                    {% if longitude %}
+                                        <span style="margin-left: 5px;">Долгота: {{ longitude }}°</span>
+                                    {% else %}
+                                        <span style="margin-left: 5px;">Долгота: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+<!---------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+                        <div class="row mt-3">
+                            <!-- Облачность -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/clouds.png' %}" alt="clouds">
+                                    {% if clouds %}
+                                        <span style="margin-left: 5px;">Облачность: {{ clouds }} %</span>
+                                    {% else %}
+                                        <span style="margin-left: 5px;">Облачность: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- Чувствуется как -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/feels_like.png' %}" alt="feels_like">
+                                    {% if feels_like %}
+                                        <span style="margin-left: 5px;">Чувствуется как: {{ feels_like }}°C</span>
+                                    {% else %}
+                                        <span style="margin-left: 5px;">Чувствуется как: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- Уровень земли -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/ground_level.png' %}" alt="ground_level">
+                                    {% if ground_level %}
+                                        <span style="margin-left: 5px;">Уровень земли: {{ ground_level }} мм рт. ст.</span>
+                                    {% else %}
+                                    <span style="margin-left: 5px;">Уровень земли: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+<!---------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+                        <div class="row mt-3">
+                            <!-- Уровень воды -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/sea_level.png' %}" alt="sea_level">
+                                    {% if sea_level %}
+                                        <span style="margin-left: 5px;">Уровень воды: {{ sea_level }} мм рт. ст.</span>
+                                    {% else %}
+                                        <span style="margin-left: 5px;">Уровень воды: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- Влажность -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/humidity.png' %}" alt="humidity">
+                                    {% if humidity %}
+                                        <span style="margin-left: 5px;">Влажность: {{ humidity }}%</span>
+                                    {% else %}                                    
+                                        <span style="margin-left: 5px;">Влажность: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- Давление -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/pressure.png' %}" alt="latitude">
+                                    {% if humidity %}
+                                        <span style="margin-left: 5px;">Давление: {{ pressure }} мм рт. ст.</span>
+                                    {% else %}                                    
+                                        <span style="margin-left: 5px;">Давление: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+<!---------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+                        <div class="row mt-3">
+                            <!-- Температура -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/temperature.png' %}" alt="temperature">
+                                    {% if temperature %}
+                                        <span style="margin-left: 5px;">Температура: {{ temperature }}°C</span>
+                                    {% else %}                                    
+                                        <span style="margin-left: 5px;">Температура: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- Минимальная температура -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/min_temperature.png' %}" alt="min_temperature">
+                                    {% if min_temperature %}
+                                        <span style="margin-left: 5px;">Мин. температура: {{ min_temperature }}°C</span>
+                                    {% else %}                                    
+                                        <span style="margin-left: 5px;">Мин. температура: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- Максимальная температура -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/max_temperature.png' %}" alt="max_temperature">
+                                    {% if max_temperature %}
+                                        <span style="margin-left: 5px;">Макс. температура: {{ max_temperature }}°C</span>
+                                    {% else %}                                    
+                                        <span style="margin-left: 5px;">Макс. температура: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+<!---------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+                        <div class="row mt-3">
+                            <!-- Страна -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/country.png' %}" alt="country">
+                                    {% if country %}
+                                        <span style="margin-left: 5px;">Страна: {{ country }}</span>
+                                    {% else %}                                    
+                                        <span style="margin-left: 5px;">Страна: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- Рассвет -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/sunrise.png' %}" alt="sunrise">
+                                    {% if sunrise %}
+                                        <span style="margin-left: 5px;">Рассвет: {{ sunrise }}</span>
+                                    {% else %}                                    
+                                        <span style="margin-left: 5px;">Рассвет: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- Закат -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/sunset.png' %}" alt="sunset">
+                                    {% if sunset %}
+                                        <span style="margin-left: 5px;">Закат: {{ sunset }}</span>
+                                    {% else %}                                    
+                                        <span style="margin-left: 5px;">Закат: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+<!---------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+                        <div class="row mt-3">
+                            <!-- Часовой пояс -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/timezone.png' %}" alt="timezone">
+                                    {% if timezone %}
+                                        <span style="margin-left: 5px;">Часовой пояс: {{ timezone }}</span>
+                                    {% else %}                                    
+                                        <span style="margin-left: 5px;">Часовой пояс: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- Видимость -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/visibility.png' %}" alt="visibility">
+                                    {% if visibility %}
+                                        <span style="margin-left: 5px;">Видимость: {{ visibility }} км.</span>
+                                    {% else %}                                    
+                                        <span style="margin-left: 5px;">Видимость: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- Описание -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/description.png' %}" alt="description">
+                                    {% if description %}
+                                        <span style="margin-left: 5px;">Описание: {{ description }}</span>
+                                    {% else %}                                    
+                                        <span style="margin-left: 5px;">Описание: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+<!---------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+                        <div class="row mt-3">
+                            <!-- Погодные условия -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/weather_conditions.png' %}" alt="weather_conditions">
+                                    {% if weather_conditions %}
+                                        <span style="margin-left: 5px;">Погодные условия: {{ weather_conditions }}</span>
+                                    {% else %}                                    
+                                        <span style="margin-left: 5px;">Погодные условия: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- Направление ветра -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/wind_direction.png' %}" alt="wind_direction">
+                                    {% if wind_deg %}
+                                        <span style="margin-left: 5px;">Направление ветра: {{ wind_deg }}° ({{ wind_direction }})</span>
+                                    {% else %}                                    
+                                        <span style="margin-left: 5px;">Направление ветра: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- Порыв ветра -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/wind_gust.png' %}" alt="wind_gust">
+                                    {% if wind_gust %}
+                                        <span style="margin-left: 5px;">Порыв ветра: {{ wind_gust }} м/с</span>
+                                    {% else %}                                    
+                                        <span style="margin-left: 5px;">Порыв ветра: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+<!---------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+                        <div class="row mt-3">
+                            <!-- Скорость ветра -->
+                            <div class="col-md-4 my-1">
+                                <div class="d-flex align-items-center">
+                                    <img src="{% static 'images/wind_speed.png' %}" alt="wind_speed">
+                                    {% if wind_speed %}
+                                        <span style="margin-left: 5px;">Скорость ветра: {{ wind_speed }} м/с</span>
+                                    {% else %}                                    
+                                        <span style="margin-left: 5px;">Скорость ветра: -</span>
+                                    {% endif %}
+                                </div>
+                            </div>                        
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
